@@ -1,0 +1,35 @@
+<div class="app-breadcrumbs">
+    <ol class="breadcrumb">
+        <li><a href="/app/" onclick="return App.click(this);">All Journals</a></li>
+        <li class="active">Search results for "<%- params.q %>"</li>
+    </ol>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="expand">Entries</th>
+            <th class="shrink">Created at</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% _.each(items, function(item) { %>
+            <%= App.templates.renderComponent("item_row", {item: item}) %>
+        <% }); %>
+    </tbody>
+</table>
+
+<% if (num_pages > 1) { %>
+
+<nav>
+    <ul class="pager">
+        <% if (params.page > 1) { %>
+            <li><a href="<%= App.router.rev.search(params, {page: params.page-1}) %>" onclick="return App.click(this);"><i class="fa fa-angle-double-left"></i></a></li>
+        <% } %>
+        <% if (params.page < num_pages) { %>
+            <li><a href="<%= App.router.rev.search(params, {page: params.page+1}) %>" onclick="return App.click(this);"><i class="fa fa-angle-double-right"></i></a></li>
+        <% } %>
+    </ul>
+</nav>
+
+<% } %>

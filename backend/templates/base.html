@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="LaserNotes - Journaling and blogging app">
+        <meta name="author" content="Maksim Sipos - k-partite LLC">
+        <meta name="referrer" content="never">
+        <link rel="icon" href="/favicon.ico">
+
+        <title>LaserNotes</title>
+
+        <link href="/static/css/app_0001.css" rel="stylesheet">
+        <script src="/static/js/libs_0001.js"></script>
+        <script src="/static/js/app_0001.js"></script>
+
+        {% block extrahead %}
+        {% endblock %}
+
+    </head>
+    <body>
+
+    <div class="container main-body">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="/">LaserNotes</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                  <ul class="nav navbar-nav">
+                  </ul>
+
+                  <ul class="nav navbar-nav navbar-right">
+                      <li><a href="#logout" onclick="return App.logOut();">Log out</a></li>
+                  </ul>
+                </div>
+            </div>
+        </nav>
+
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <div class="container text-center">
+        <p style="padding-top: 50px;" class="center-block">
+            LaserNotes, &copy; <a href="https://kpartite.com">k-partite LLC</a>
+        </p>
+    </div>
+
+    <form method="post" action="/account/logout/" id="logoutForm">
+        {% csrf_token %}
+    </form>
+    </body>
+</html>

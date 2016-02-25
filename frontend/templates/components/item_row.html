@@ -1,0 +1,24 @@
+<tr>
+    <td class="expand">
+        <% if (item.typ === "E") { %>
+            <i class="fa fa-file fa-fw"></i>
+        <% } else { %>
+            <i class="fa fa-link fa-fw"></i>
+        <% } %>
+
+        <a href="/app/item/<%= item.id %>/" onclick="return App.click(this);"><%- item.title %></a>
+
+        <% if (item.notes) { %>
+            <span class="label label-info" style="margin-left: 6px;">
+                <%= App.util.shorten(item.notes, 15) %>
+            </span>
+        <% } %>
+
+        <% if (item.typ === "U") { %>
+            <a href="<%= item.content %>" style="padding-left: 5px;"><i class="fa fa-external-link fa-fw"></i></a>
+        <% } %>
+    </td>
+    <td class="shrink">
+        <%= App.util.formatDateTime(new Date(item.created_at)) %>
+    </td>
+</tr>

@@ -1,0 +1,40 @@
+{% extends "base_front.html" %}
+
+{% block content %}
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron" style="margin-top: 10px;">
+      <div class="container">
+        <h2>LaserNotes</h2>
+        <p>LaserNotes is a web application for journaling.  Keep track of, search and tag your thoughts, notes and URLs.</p>
+        <p>
+            <a class="btn btn-primary btn-lg" href="{% url 'account_signup' %}" role="button">Sign up &raquo;</a>
+            <a class="btn btn-default btn-lg" href="{% url 'account_login' %}" role="button">Log in &raquo;</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-4">
+          <h3>Free and Open Source</h3>
+          <p>Forever free to use but also free to develop further.  If desired, you can also run it on your own cloud.</p>
+          <p><a class="btn btn-default" href="#" role="button">Coming soon &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+          <h3>For the Long Term</h3>
+          <p>Designed to enable journaling and note-taking for the long term. Ideally the journals you write today should be available 50 years from now.</p>
+          <p><a class="btn btn-default" href="#" role="button">Details coming soon &raquo;</a></p>
+       </div>
+        <div class="col-md-4">
+          <h3>Secure and Private</h3>
+          <p>Carefully secured cloud with regular database backups. In case more security is needed, client-side encryption is also available.</p>
+          <p><a class="btn btn-default" href="#" role="button">Details coming soon &raquo;</a></p>
+        </div>
+      </div>
+
+      <hr>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+<div class="app-breadcrumbs">
+    <ol class="breadcrumb">
+        <li class="active">All Journals</li>
+
+        <div class="btn-group pull-right">
+          <a href="/app/search/" type="button" class="btn btn-xs btn-default" onclick="return App.click(this);">
+              &nbsp;<span class="fa fa-search"></span>&nbsp;
+          </a>
+        </div>
+
+    </ol>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Your Journals</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <% _.each(journals, function(journal) { %>
+            <tr>
+                <% if (journal.encrypted) { %>
+                    <% if (App.cryptoState.isLockedCollection(journal.id)) { %>
+                        <td class="expand">
+                            <i class="fa fa-lock fa-fw"></i> &nbsp; <a href="/app/journal/<%= journal.id %>/" onclick="return App.click(this);"><%- journal.name %></a>
+                        </td>
+                        <td class="shrink">
+                        </td>
+                    <% } else { %>
+                        <td class="expand">
+                            <i class="fa fa-unlock fa-fw"></i></span> &nbsp; <a href="/app/journal/<%= journal.id %>/" onclick="return App.click(this);"><%- journal.name %></a>
+                        </td>
+                        <td class="shrink">
+                            <button class="btn btn-warning btn-xs" onclick="return App.lock(<%= journal.id %>);">Lock</button>
+                        </td>
+                    <% } %>
+                <% } else  { %>
+                    <td class="expand">
+                        <span class="fa fa-book fa-fw"></span> &nbsp; <a href="/app/journal/<%= journal.id %>/" onclick="return App.click(this);"><%- journal.name %></a>
+                    </td>
+                    <td class="shrink">
+                    </td>
+                <% } %>
+            </tr>
+        <% }); %>
+        <% if (journals.length == 0) { %>
+            <tr>
+                <td><span class="text-center">No journals.</span></td>
+            </tr>
+        <% } %>
+    </tbody>
+</table>
+
+<div class="app-toolbar">
+    <div class="btn-toolbar">
+        <a href="/app/journal/new/" type="button" class="btn btn-primary" onclick="return App.click(this);">
+            New Journal
+        </a>
+
+        <div class="pull-right">
+        </div>
+    </div>
+</div>

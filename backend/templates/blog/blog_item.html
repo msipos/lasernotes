@@ -1,0 +1,29 @@
+{% extends "blog/base_blog.html" %}
+
+{% block title %}
+{{ blog.title }} - {{ item.item.title }}
+{% endblock %}
+
+{% block content %}
+<h1>{{item.item.title}}</h1>
+
+<div class="blog-item-subheading">
+    Published {{ item.date }} on <a href="/blogs/{{blog.slug}}/">{{blog.title}}</a>.
+</div>
+
+<hr class="blog">
+
+<div class="blog-item-content">
+    {% autoescape off %}
+    {{ item.item.get_rendered_content }}
+    {% endautoescape %}
+</div>
+
+<div class="well blog-about">
+    <p style="font-weight: bold;">About this blog</p>
+    {% autoescape off %}
+    <p>{{ blog.get_rendered_sidebar }}</p>
+    {% endautoescape %}
+</div>
+
+{% endblock %}

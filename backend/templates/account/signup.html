@@ -1,0 +1,49 @@
+{% extends "base_front.html" %}
+
+{% load account_tags %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block title %}{% trans "Sign up" %}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <form id="signup_form" method="post" action="{% url "account_signup" %}" autocapitalize="off" {% if form.is_multipart %} enctype="multipart/form-data"{% endif %}>
+            <legend>{% trans "Sign up" %}</legend>
+            {% csrf_token %}
+
+            <div class="form-group">
+              <label class="control-label" for="id_email">Email</label>
+              <input class="form-control" id="id_email" name="email" placeholder="Email" required="required" title="" type="text" />
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="id_password">Password</label>
+              <input class="form-control" id="id_password" name="password" placeholder="Password" required="required" title="" type="password" />
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="id_password_confirm">Password (again)</label>
+              <input class="form-control" id="id_password_confirm" name="password_confirm" placeholder="Password (again)" required="required" title="" type="password" />
+            </div>
+            <input id="id_code" maxlength="64" name="code" type="hidden" />
+
+            {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <button type="submit" class="btn btn-primary">{% trans "Sign up" %}</button>
+        </form>
+        <p class="login-signup">
+            <small>
+                {% trans "Already have an account or prefer to login with Google?" %}  <strong><a href="{% urlnext 'account_login' %}">{% trans "Log in" %}</a></strong>
+            </small>
+        </p>
+      </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#id_username').focus();
+        });
+    </script>
+{% endblock %}

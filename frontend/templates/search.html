@@ -1,0 +1,18 @@
+<div class="app-breadcrumbs">
+    <ol class="breadcrumb">
+        <li><a href="/app/" onclick="return App.click(this);">All Journals</a></li>
+        <li class="active">Search</li>
+    </ol>
+</div>
+
+<form autocomplete="off">
+    <div class="form-group">
+        <label>Search</label>
+        <input name="searchText" type="text" class="form-control" id="searchText" placeholder="Enter search text">
+    </div>
+
+    <div class="app-toolbar">
+        <button class="btn btn-primary" id="searchButton">Search</button>
+        <a href="/app/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
+    </div>
+</form>

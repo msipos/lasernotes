@@ -1,0 +1,33 @@
+{
+  "name": "pn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "devDependencies": {
+    "bower": "^1.5.3",
+    "del": "^2.0.2",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.2.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-cssnano": "^2.0.0",
+    "gulp-if": "^2.0.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.5.1",
+    "minimist": "^1.2.0",
+    "webpack-stream": "^3.1.0"
+  },
+  "scripts": {
+    "build": "gulp build watch",
+    "bower": "bower"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/msipos/pn.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/msipos/pn#readme",
+  "dependencies": {
+    "raw-loader": "^0.5.1"
+  }
+}

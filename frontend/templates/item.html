@@ -1,0 +1,44 @@
+<div class="app-breadcrumbs">
+    <ol class="breadcrumb">
+        <li>
+            <a href="/app/" onclick="return App.click(this);">
+                All Journals
+            </a>
+        </li>
+        <li>
+            <a href="/app/journal/<%= item.collection_id %>/" onclick="return App.click(this);">
+                <%- item.collection_name %>
+            </a>
+        </li>
+        <li class="active">
+            <%- item.title %>
+        </li>
+    </ol>
+</div>
+
+<h2 class="app-note-title">
+    <%- item.title %>
+</h2>
+<div class="app-note-subheading">Created on <a style="color: #666" href="/app/item/<%= item.id %>/edit-date/" onclick="return App.click(this);"><%= App.util.formatDateTime(new Date(item.created_at)) %></a>.
+<% if (item.created_at !== item.edited_at) { %>
+Last edited on <%= App.util.formatDateTime(new Date(item.edited_at)) %>.
+<% } %>
+<% if (item.notes) { %>
+    <span class="fa fa-sticky-note-o" style="padding-left: 8px;padding-right: 4px;"></span>
+    <%- item.notes %>
+<% } %>
+
+</div>
+<div class="app-note-content"><%= item.content %></div>
+
+<div class="app-toolbar">
+    <div class="btn-toolbar">
+        <a href="/app/item/<%= item.id %>/edit/" type="button" class="btn btn-primary" onclick="return App.click(this);">
+            Edit Item
+        </a>
+
+        <div class="pull-right">
+            <button class="btn btn-danger" type="button" id="deleteItemButton">Delete Item</button>
+        </div>
+    </div>
+</div>

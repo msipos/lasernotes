@@ -1,0 +1,36 @@
+<div class="app-breadcrumbs">
+    <ol class="breadcrumb">
+        <li><a href="/app/" onclick="return App.click(this);">All Journals</a></li>
+        <li class="active">Unlock "<%- collection.name %>"</li>
+    </ol>
+</div>
+
+<div class="app-error" style="display: none;" id="appError">
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <h3 class="panel-title">Error</h3>
+        </div>
+        <div id="appErrorBody" class="panel-body">
+        </div>
+    </div>
+</div>
+
+<p>Please enter your password to unlock "<%- collection.name %>".</p>
+
+<form autocomplete="off" id="passwordForm">
+    <div class="form-group">
+        <label>Password</label>
+        <input name="journalPassword" type="password" class="form-control" id="journalPassword" placeholder="Enter password" autocomplete="off">
+    </div>
+</form>
+
+<div class="app-toolbar">
+    <div class="btn-toolbar">
+        <button type="button" class="btn btn-primary" id="unlockButton">
+            Unlock
+        </button>
+        <a href="/app/" type="button" class="btn btn-default" onclick="return App.click(this);">
+            Cancel
+        </a>
+    </div>
+</div>

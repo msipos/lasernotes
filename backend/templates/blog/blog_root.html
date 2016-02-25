@@ -1,0 +1,32 @@
+{% extends "blog/base_blog.html" %}
+
+{% block title %}
+{{ blog.title }}
+{% endblock %}
+
+{% block content %}
+<h1>{{blog.title}}</h1>
+
+<hr class="blog">
+
+{% for item in items %}
+    <div class="blog-post-in-list">
+        <span class="blog-post-date">
+            {{ item.date }}
+        </span>
+
+        <span class="blog-post-title">
+            <a href="/blogs/{{blog.slug}}/{{item.get_url_fragment}}">{{item.item.title}}</a>
+        </span>
+
+    </div>
+{% endfor %}
+
+<div class="well blog-about">
+    <p style="font-weight: bold;">About this blog</p>
+    {% autoescape off %}
+    <p>{{ blog.get_rendered_sidebar }}</p>
+    {% endautoescape %}
+</div>
+
+{% endblock %}

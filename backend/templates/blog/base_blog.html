@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="/favicon.ico">
+        <link href="/static/css/app_0001.css" rel="stylesheet">
+
+        <title>{% block title %}{% endblock%}</title>
+    </head>
+    <body>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <div class="container text-center">
+        <p style="padding-top: 50px;" class="center-block">
+            Hosted by <a href="https://lasernotes.com">LaserNotes</a>, &copy; <a href="https://kpartite.com">k-partite LLC</a>
+        </p>
+    </div>
+    </body>
+
+</html>

@@ -1,0 +1,125 @@
+<div class="app-breadcrumbs">
+    <ol class="breadcrumb">
+        <li>
+            <a href="/app/" onclick="return App.click(this);">
+                All Journals
+            </a>
+        </li>
+        <li>
+            <a href="/app/journal/<%= collection_id %>/" onclick="return App.click(this);">
+                <%- collection_name %>
+            </a>
+        </li>
+        <li class="active">
+            <%- action %>
+        </li>
+    </ol>
+</div>
+
+<form autocomplete="off">
+    <div class="form-group">
+        <label>Name</label>
+        <input name="itemName" type="text" class="form-control" id="itemName" placeholder="Enter item name"
+            <% if (title) { %>
+                value="<%= title %>"
+            <% } %>
+        >
+    </div>
+    <div class="form-group">
+        <label>Notes</label>
+        <input name="itemNotes" type="text" class="form-control" id="itemNotes" placeholder="Enter item notes"
+            <% if (notes) { %>
+                value="<%= notes %>"
+            <% } %>
+        >
+    </div>
+    <div class="form-group">
+        <% if (typ === "U") { %>
+            <label>URL</label>
+            <input name="itemContents" type="text" class="form-control" id="itemContents" placeholder="Enter URL"
+            <% if (content) { %>
+                value="<%= content %>"
+            <% } %>
+            >
+        <% } else { %>
+            <label style="position: relative; top: 15px;">
+              Content
+            </label>
+            <span class="pull-right">
+            <ul class="nav nav-tabs">
+                <li class="active" id="editTab">
+                  <a href="#">Edit</a>
+                </li>
+                <li id="previewTab">
+                  <a href="#">Preview</a>
+                </li>
+                <li id="helpTab">
+                  <a href="#">Markdown Help</a>
+                </li>
+            </ul>
+            </span>
+            <textarea class="form-control app-note-content-edit" id="itemContents"><% if (content) { %><%- content %><% } %></textarea>
+            <div style="position: relative; top: 15px; padding: 10px; border: #ccc 1px solid; border-radius: 5px;" id="previewContents" class="hidden">
+            </div>
+            <div style="position: relative; top: 15px; padding: 10px; border: #ccc 1px solid; border-radius: 5px;" id="helpContents" class="hidden">
+              <p>
+                Write your contents using <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown</a>.
+              </p>
+
+              <div style="width: 55%;" class="pull-left">
+
+
+                <p><b>Markdown</b></p>
+<pre>
+Split paragraphs by having empty lines.
+
+This is another paragraph followed by a list.
+
+* This is a **bold item**.
+* And this one is _italic_.
+  - This is `code` for a nested list.
+  - A [link](https://lasernotes.com)
+
+```
+  function() {
+    // code...
+  }
+```
+</pre>
+</div>
+
+              <div style="width: 40%;" class="pull-right">
+<p><b>Result</b></p>
+
+<p>Split paragraphs by having empty lines.</p>
+<p>This is another paragraph followed by a list.</p>
+<ul>
+<li>This is a <strong>bold item</strong>.</li>
+<li>And this one is <em>italic</em>.<ul>
+<li>This is <code>code</code> for a nested list.</li>
+<li>A <a href="https://lasernotes.com">link</a></li>
+</ul>
+</li>
+</ul>
+<pre><code>  function() {
+    // code...
+  }
+</code></pre></div>
+
+  <div class='clearfix'></div>
+
+            </div>
+        <% } %>
+    </div>
+
+    <% if (typ === "U") { %>
+        <p>
+            Looking for an easier way to bookmark URLs? Drag this bookmarklet to your toolbar: <a href="javascript:location.href='https://lasernotes.com/app/journal/<%= collection_id %>/new/url/?content='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title)">Bookmark to <%- collection_name %></a>
+        </p>
+    <% } %>
+
+    <div class="app-toolbar">
+        <button class="btn btn-primary" id="acceptItem">Save Item</button>
+        <a href="/app/journal/<%= collection_id %>/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
+    </div>
+</form>

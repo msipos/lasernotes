@@ -1,0 +1,28 @@
+{
+  "name": "lower",
+  "version": "0.0.1",
+  "authors": [
+    "Maksim Sipos <max@kpartite.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "2.1.x",
+    "bootstrap": "3.3.x",
+    "bootstrap-timepicker": "0.5.x",
+    "bootbox": "4.4.x",
+    "sjcl": "1.0.x",
+    "backbone": "1.2.x",
+    "react": "0.14.x",
+    "bluebird": "3.1.x",
+    "urijs": "uri.js#^1.17.0",
+    "notifyjs": "0.4.x",
+    "marked": "0.3.x"
+  }
+}

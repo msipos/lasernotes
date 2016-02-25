@@ -1,0 +1,28 @@
+<div class="app-breadcrumbs">
+    <ol class="breadcrumb">
+        <li>
+            <a href="/app/" onclick="return App.click(this);">
+                All Journals
+            </a>
+        </li>
+        <li>
+            <a href="/app/journal/<%= collection_id %>/" onclick="return App.click(this);">
+                <%- collection_name %>
+            </a>
+        </li>
+        <li class="active">
+            Edit Date
+        </li>
+    </ol>
+</div>
+
+<form autocomplete="off">
+  <div class="form-group">
+      <label>Change Date:</label>
+      <input id="dateInput" type="text" class="form-control">
+  </div>
+  <div class="app-toolbar">
+      <button class="btn btn-primary" id="setDateButton">Set Date</button>
+      <a href="/app/journal/<%= collection_id %>/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
+  </div>
+</form>

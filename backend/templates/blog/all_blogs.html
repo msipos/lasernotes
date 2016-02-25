@@ -1,0 +1,20 @@
+{% extends "blog/base_blog.html" %}
+
+{% block title %}
+Blogs hosted on LaserNotes
+{% endblock %}
+
+{% block content %}
+<h1>Hosted Blogs</h1>
+
+<hr class="blog">
+
+{% for blog in blogs %}
+    <div class="blog-post-in-list">
+        <span class="blog-post-title">
+            <a href="/blogs/{{blog.slug}}/">{{blog.title}}</a>
+        </span>
+    </div>
+{% endfor %}
+
+{% endblock %}
