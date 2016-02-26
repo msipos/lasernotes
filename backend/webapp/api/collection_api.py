@@ -51,7 +51,7 @@ class CollectionResource(DjangoResource):
     def create(self):
         audit_msg(self.request)
 
-        form = forms.NewCollectionForm(self.data)
+        form = forms.CollectionForm(self.data)
         if not form.is_valid():
             raise BadRequest('Validation failure: %r' % form.errors)
 
@@ -76,15 +76,39 @@ class CollectionResource(DjangoResource):
                 )
 
             if form.cleaned_data['blogged']:
-                models.BlogCollection.objects.create(
-                    collection=coll,
-                    slug=form.cleaned_data['blog_slug'],
-                    description=form.cleaned_data['blog_desc']
-                )
+                coll.ensure_blog_exists()
+                coll.blog.slug = form.cleaned_data['blog_slug']
+                coll.blog.description = form.cleaned_data['blog_desc']
+                coll.blog.save()
 
             models.CollectionPermission.objects.create(user=self.request.user, collection=coll, permission=models.OWNER)
 
             audit_msg(self.request, 'Created %s' % coll.name)
+        return self._prepare(coll)
+
+    def update(self, pk):
+        audit_msg(self.request)
+
+        form = forms.CollectionForm(self.data)
+        if not form.is_valid():
+            raise BadRequest('Validation failure: %r' % form.errors)
+
+        with transaction.atomic():
+            accessor = models.Accessor(self.request.user)
+            try:
+                coll = accessor.query_collections().get(id=pk)
+            except ObjectDoesNotExist:
+                raise NotFound('Invalid collection id = %r' % pk)
+
+            if form.cleaned_data['blogged']:
+                coll.ensure_blog_exists()
+                coll.blog.slug = form.cleaned_data['blog_slug']
+                coll.blog.description = form.cleaned_data['blog_desc']
+                coll.blog.save()
+            else:
+                models.BlogCollection.objects.filter(collection=coll).delete()
+            coll.name = form.cleaned_data['name']
+            coll.save()
         return self._prepare(coll)
 
     def detail(self, pk):

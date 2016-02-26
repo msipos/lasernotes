@@ -28,6 +28,10 @@ var backend = {
     newCollectionObject: function(obj) {
         return this.ajax("/api/v1/collections/", "POST", obj);
     },
+    updateCollectionObject: function(collection, obj) {
+        var url = "/api/v1/collections/" + collection + "/";
+        return this.ajax(url, "PUT", obj);
+    },
     getCollection: function(collection, detail) {
         var url = "/api/v1/collections/" + collection + "/";
         if (detail) url += "?detail=true";

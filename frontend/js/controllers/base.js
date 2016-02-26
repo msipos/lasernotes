@@ -6,7 +6,9 @@ var unlock = require("./unlock.js");
 function collectionBase(cId, controllerFunc, params) {
     App.renderMain("loader.html");
 
-    App.backend.getCollection(cId).then(
+    var detail = params && (params.detail || false);
+
+    App.backend.getCollection(cId, detail).then(
         function(collection) {
             if (unlock.check(collection)) return null;
 

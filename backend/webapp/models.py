@@ -40,6 +40,11 @@ class Collection(models.Model):
         else:
             return '%s: %s' % (self.user.email, self.name)
 
+    def ensure_blog_exists(self):
+        if not hasattr(self, 'blog'):
+            return BlogCollection.objects.create(collection=self)
+        return self.blog
+
 
 class BlogCollection(models.Model):
     collection = models.OneToOneField(Collection, on_delete=models.CASCADE, related_name='blog')

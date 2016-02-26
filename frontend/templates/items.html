@@ -11,6 +11,8 @@
             Actions <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
+            <li><a href="/app/journal/<%= collection.id %>/edit/" onclick="return App.click(this);">Edit Journal</a></li>
+            <li role="separator" class="divider"></li>
             <li><a href="<%= App.router.rev.journal(collection.id, params, {sortBy: 'ct'}) %>" onclick="return App.click(this);">Sort by creation date</a></li>
             <li><a href="<%= App.router.rev.journal(collection.id, params, {sortBy: 'et'}) %>" onclick="return App.click(this);">Sort by last edit date</a></li>
             <li><a href="<%= App.router.rev.journal(collection.id, params, {sortBy: 't'}) %>" onclick="return App.click(this);">Sort by title</a></li>

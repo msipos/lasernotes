@@ -2,7 +2,7 @@ from django import forms
 from django.core.validators import URLValidator
 
 
-class NewCollectionForm(forms.Form):
+class CollectionForm(forms.Form):
     name = forms.CharField(min_length=1, max_length=240)
 
     encrypted = forms.BooleanField(required=False)
@@ -18,7 +18,7 @@ class NewCollectionForm(forms.Form):
     blog_desc = forms.CharField(max_length=2048, required=False)
 
     def clean(self):
-        super(NewCollectionForm, self).clean()
+        super(CollectionForm, self).clean()
 
         if self.cleaned_data['blogged']:
             if len(self.cleaned_data['blog_slug']) < 3:

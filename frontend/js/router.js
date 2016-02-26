@@ -1,4 +1,5 @@
 var controllerBase = require("./controllers/base.js");
+var controllerEdit = require("./controllers/journal_edit.js");
 var controllerItem = require("./controllers/item.js");
 var controllerJournals = require('./controllers/journals.js');
 var controllerJournalsNew = require('./controllers/journal_new.js');
@@ -10,6 +11,7 @@ module.exports = Backbone.Router.extend({
         "": "journalIndex",
         "journal/new/": "journalNew",
         "journal/:id/?:params": "journalPage",
+        "journal/:id/edit/": "journalEdit",
         "journal/:id/new/url/?:params": "itemNewUrlWithParams",
         "journal/:id/new/url/": "itemNewUrl",
         "journal/:id/new/": "itemNew",
@@ -38,6 +40,10 @@ module.exports = Backbone.Router.extend({
     journalPage: function(id, params) {
         params = (new URI("/?" + params)).search(true);
         controllerBase.collectionWithItems(id, controllerJournals.journalPage, params);
+    },
+
+    journalEdit: function(id) {
+        controllerBase.collection(id, controllerEdit.index, {detail: true});
     },
 
     // Controller for "/app/journal:id/unlock/"
