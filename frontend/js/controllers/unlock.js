@@ -22,6 +22,7 @@ function onUnlockClick(collection, e) {
 function render(collection) {
     return App.renderMain("unlock.html", {collection: collection}).then(function() {
         var p = _.partial(onUnlockClick, collection, _);
+        $("#journalPassword").focus();
         $("#unlockButton").on("click", p);
         $("#passwordForm").on("submit", p);
 
