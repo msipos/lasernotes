@@ -14,6 +14,10 @@
             <li><a href="<%= App.router.rev.journal(collection.id, params, {sortBy: 'ct'}) %>" onclick="return App.click(this);">Sort by creation date</a></li>
             <li><a href="<%= App.router.rev.journal(collection.id, params, {sortBy: 'et'}) %>" onclick="return App.click(this);">Sort by last edit date</a></li>
             <li><a href="<%= App.router.rev.journal(collection.id, params, {sortBy: 't'}) %>" onclick="return App.click(this);">Sort by title</a></li>
+            <% if (collection.blogged) { %>
+              <li role="separator" class="divider"></li>
+              <li><a href="#" onclick="return App.visitBlog(<%= collection.id %>);">View Public Blog</a>
+            <% } %>
           </ul>
         </div>
     </ol>

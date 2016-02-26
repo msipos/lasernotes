@@ -52,15 +52,8 @@ window.App = {
             this.leaveHelper = null;
         }
 
-        if (url == this.previousUrl) {
-            // Bit of a hack here: we want to "refresh a page" when pressing lock button.
-            if (url == "") {
-                this.router.journalIndex();
-            }
-        } else {
-            this.router.navigate(url, {trigger: true});
-            this.previousUrl = url;
-        }
+        this.router.navigate(url, {trigger: true});
+        this.previousUrl = url;
     },
 
     renderMain: function(name, context) {
@@ -84,5 +77,11 @@ window.App = {
         this.cryptoState.lockCollection(id);
         this.navigate("");
         this.router.refresh();
+    },
+
+    visitBlog: function(cId) {
+        this.backend.getCollection(cId, true).then(function(c) {
+            window.location = '/blogs/' + c.blog.slug + '/';
+        });
     }
 };

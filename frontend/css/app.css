@@ -103,6 +103,12 @@ span.app-bc-icon {
     margin-right: 5px;
 }
 
+/******** Front page *****/
+
+div.front-page-content {
+    margin-top: 10px;
+}
+
 /* Fixes */
 
 /* Form inside a table row. */

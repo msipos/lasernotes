@@ -26,6 +26,11 @@ class CollectionResource(DjangoResource):
                     'challenge_hash': obj.encrypted_challenge_hash,
                     'challenge_params': obj.encrypted_challenge_params
                 }
+            if obj.blogged:
+                rv['blog'] = {
+                    'slug': obj.blog.slug,
+                    'description': obj.blog.description
+                }
         return rv
 
     ### Restless settings

@@ -46,7 +46,8 @@ def item_page(request, blog_slug, year, month, day, item_slug):
 
     context = {
         'blog': blog,
-        'items': items
+        'items': items,
+        'first_item': items[0]
     }
 
     return TemplateResponse(request, 'blog/blog_item.html', context)
