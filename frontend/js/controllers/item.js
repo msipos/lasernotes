@@ -14,14 +14,41 @@ function onClickDelete(iId, cId, e) {
     });
 }
 
+function onChangeVisibility(iId, e) {
+    e.preventDefault();
+
+    var choices = [
+        'Private',
+        'Public (visible on blog)'
+    ];
+
+    var dialog = {
+        title: 'Choose visibility',
+        text: 'Choose visibility for this entry:',
+        choices: choices,
+        callback: function(c) {
+            var visibility = 'P';
+            if (c === 1) visibility = 'V';
+            App.backend.updateItemObject(iId, {visibility: visibility}).then(function() {
+                App.navigate("item/" + iId + "/");
+                App.router.refresh();
+            });
+        }
+    };
+    App.util.bootboxChoice(dialog); 
+}
+
 // Controller for "/app/item/:id/"
 function index(item, collection) {
     item.content = compileContent(item.content);
     var context = {
-        item: item
+        item: item,
+        collection: collection
     };
     App.renderMain("item.html", context).then(function() {
         $("#deleteItemButton").on("click", _.partial(onClickDelete, item.id, collection.id, _));
+
+        $("#changeVisibilityLink").on("click", _.partial(onChangeVisibility, item.id, _));
     });
 }
 
@@ -201,7 +228,7 @@ function editDate(item, collection) {
             var d = $("#dateInput").val();
             App.backend.updateItemObject(item.id, {created_at: d}).then(function() {
                 var url = "item/" + item.id + "/";
-                return App.navigate(url);    
+                return App.navigate(url);
             });
         });
     });

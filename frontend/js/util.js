@@ -52,8 +52,40 @@ function shorten(s, l) {
     return s;
 }
 
+function bootboxChoice(obj) {
+    var msg = '<form> ';
+    if (obj.text) msg += '<p>' + obj.text + '</p>';
+    var defaultChoice = obj.defaultChoice || 0;
+
+    _.each(obj.choices, function(choice, index) {
+        msg += '<div class="form-group">'
+        if (index == defaultChoice) {
+            msg += '<input type="radio" name="bbchoice" value="' + index + '" checked> ' + choice;
+        } else {
+            msg += '<input type="radio" name="bbchoice" value="' + index + '"> ' + choice;
+        }
+    });
+    msg += '</form>';
+
+    bootbox.dialog({
+        title: obj.title,
+        message: msg,
+        buttons: {
+            success: {
+                label: "Set",
+                className: "btn-success",
+                callback: function () {
+                    var choice = parseInt($("input[name='bbchoice']:checked").val());
+                    obj.callback(choice);
+                }
+            }
+        }
+    });
+}
+
 module.exports.formatTime = formatTime;
 module.exports.formatDate = formatDate;
 module.exports.formatDatePicker = formatDatePicker;
 module.exports.formatDateTime = formatDateTime;
 module.exports.shorten = shorten;
+module.exports.bootboxChoice = bootboxChoice;

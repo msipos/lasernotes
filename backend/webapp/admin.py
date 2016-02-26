@@ -16,6 +16,7 @@ class SessionAdmin(admin.ModelAdmin):
 admin.site.register(Session, SessionAdmin)
 
 admin.site.register(models.Collection)
+admin.site.register(models.BlogCollection, list_display=['collection', 'slug'])
 admin.site.register(models.CollectionPermission)
 admin.site.register(models.Item)
 

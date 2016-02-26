@@ -4,13 +4,27 @@ from django.core.validators import URLValidator
 
 class NewCollectionForm(forms.Form):
     name = forms.CharField(min_length=1, max_length=240)
+
     encrypted = forms.BooleanField(required=False)
+
     effective_password_params = forms.CharField(max_length=4096, required=False)
     challenge = forms.CharField(max_length=4096, required=False)
     challenge_hash = forms.CharField(max_length=4096, required=False)
     challenge_params = forms.CharField(max_length=4096, required=False)
 
-url_validator = URLValidator()
+    blogged = forms.BooleanField(required=False)
+
+    blog_slug = forms.SlugField(required=False)
+    blog_desc = forms.CharField(max_length=2048, required=False)
+
+    def clean(self):
+        super(NewCollectionForm, self).clean()
+
+        if self.cleaned_data['blogged']:
+            if len(self.cleaned_data['blog_slug']) < 3:
+                raise forms.ValidationError("Blog slug too short.")
+            if len(self.cleaned_data['blog_desc']) == 0:
+                raise forms.ValidationError('Blog description must exist.')
 
 
 class ItemForm(forms.Form):
@@ -19,6 +33,7 @@ class ItemForm(forms.Form):
     content = forms.CharField(max_length=100*1024, required=False)
     typ = forms.CharField(min_length=1, max_length=1, required=False)
     created_at = forms.CharField(min_length=10, max_length=10, required=False)
+    visibility = forms.CharField(min_length=1, max_length=1, required=False)
 
     def clean(self):
         super(ItemForm, self).clean()

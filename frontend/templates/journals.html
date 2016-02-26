@@ -22,6 +22,7 @@
         <% _.each(journals, function(journal) { %>
             <tr>
                 <% if (journal.encrypted) { %>
+
                     <% if (App.cryptoState.isLockedCollection(journal.id)) { %>
                         <td class="expand">
                             <i class="fa fa-lock fa-fw"></i> &nbsp; <a href="/app/journal/<%= journal.id %>/" onclick="return App.click(this);"><%- journal.name %></a>
@@ -36,12 +37,24 @@
                             <button class="btn btn-warning btn-xs" onclick="return App.lock(<%= journal.id %>);">Lock</button>
                         </td>
                     <% } %>
-                <% } else  { %>
+
+                <% } else if (journal.blogged) { %>
+
+                    <td class="expand">
+                        <i class="fa fa-book fa-fw"></i> &nbsp; <a href="/app/journal/<%= journal.id %>/" onclick="return App.click(this);"><%- journal.name %></a>
+                    </td>
+                    <td class="shrink">
+                        <button class="btn btn-default btn-xs" onclick="return App.visitBlog(<%= journal.id %>);">View Blog</button>
+                    </td>
+
+                <% } else { %>
+
                     <td class="expand">
                         <span class="fa fa-book fa-fw"></span> &nbsp; <a href="/app/journal/<%= journal.id %>/" onclick="return App.click(this);"><%- journal.name %></a>
                     </td>
                     <td class="shrink">
                     </td>
+
                 <% } %>
             </tr>
         <% }); %>

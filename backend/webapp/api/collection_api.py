@@ -4,7 +4,6 @@ from django.conf import settings
 
 from restless.dj import DjangoResource
 from restless.exceptions import BadRequest, NotFound
-from restless.preparers import FieldsPreparer
 
 from webapp import forms
 from webapp import models
@@ -12,27 +11,22 @@ from webapp.util import audit_msg
 
 
 class CollectionResource(DjangoResource):
-    general_preparer = FieldsPreparer(fields={
-        'id': 'id',
-        'name': 'name',
-        'encrypted': 'encrypted'
-    })
-
-    detail_preparer = FieldsPreparer(fields={
-        'id': 'id',
-        'name': 'name',
-        'encrypted': 'encrypted',
-        'effective_password_params': 'encrypted_effective_password_params',
-        'challenge': 'encrypted_challenge',
-        'challenge_hash': 'encrypted_challenge_hash',
-        'challenge_params': 'encrypted_challenge_params'
-    })
-
     def _prepare(self, obj):
+        rv = {
+            'id': obj.id,
+            'name': obj.name,
+            'encrypted': obj.encrypted,
+            'blogged': obj.blogged
+        }
         if 'detail' in self.request.GET:
-            return self.detail_preparer.prepare(obj)
-        else:
-            return self.general_preparer.prepare(obj)
+            if obj.encrypted:
+                rv['encrypted_params'] = {
+                    'effective_password_params': obj.encrypted_effective_password_params,
+                    'challenge': obj.encrypted_challenge,
+                    'challenge_hash': obj.encrypted_challenge_hash,
+                    'challenge_params': obj.encrypted_challenge_params
+                }
+        return rv
 
     ### Restless settings
 
@@ -62,6 +56,7 @@ class CollectionResource(DjangoResource):
                     user=self.request.user,
                     name=form.cleaned_data['name'],
                     encrypted=form.cleaned_data['encrypted'],
+                    blogged=False,
                     encrypted_effective_password_params=form.cleaned_data['effective_password_params'],
                     encrypted_challenge=form.cleaned_data['challenge'],
                     encrypted_challenge_params=form.cleaned_data['challenge_params'],
@@ -72,7 +67,16 @@ class CollectionResource(DjangoResource):
                     user=self.request.user,
                     name=form.cleaned_data['name'],
                     encrypted=form.cleaned_data['encrypted'],
+                    blogged=form.cleaned_data['blogged']
                 )
+
+            if form.cleaned_data['blogged']:
+                models.BlogCollection.objects.create(
+                    collection=coll,
+                    slug=form.cleaned_data['blog_slug'],
+                    description=form.cleaned_data['blog_desc']
+                )
+
             models.CollectionPermission.objects.create(user=self.request.user, collection=coll, permission=models.OWNER)
 
             audit_msg(self.request, 'Created %s' % coll.name)

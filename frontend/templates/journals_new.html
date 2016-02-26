@@ -25,7 +25,11 @@
         <label>
             <input type="checkbox" id="journalEncrypted"> Encrypted journal
         </label>
+        <label>
+            <input type="checkbox" id="journalBlogged"> Public blog
+        </label>
     </div>
+
     <div id="journalPasswords" class="hide">
         <div class="form-group">
             <label>Password</label>
@@ -36,6 +40,18 @@
             <input name="journalVerify" type="password" class="form-control" id="journalVerify" placeholder="Enter password" autocomplete="off">
         </div>
     </div>
+
+    <div id="journalBlog" class="hide">
+      <div class="form-group">
+          <label>Slug</label>
+          <input name="journalBlogSlug" type="text" class="form-control" id="journalBlogSlug" placeholder="Enter slug">
+      </div>
+      <div class="form-group">
+          <label>Blog Description (Markdown)</label>
+          <textarea name="journalBlogDesc" type="" class="form-control" id="journalBlogDesc" ></textarea>
+      </div>
+    </div>
+
     <div class="app-toolbar">
         <button class="btn btn-primary" id="newJournal">New Journal</button>
         <a href="/app/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>

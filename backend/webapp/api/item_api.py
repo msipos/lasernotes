@@ -2,6 +2,7 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.utils.text import slugify
 from restless.dj import DjangoResource
 from restless.exceptions import BadRequest, NotFound
 from restless.preparers import FieldsPreparer
@@ -17,7 +18,8 @@ class ItemResource(DjangoResource):
         'title': 'title',
         'notes': 'notes',
         'typ': 'typ',
-        'created_at': 'created_at'
+        'created_at': 'created_at',
+        'visibility': 'visibility'
     })
 
     # This is a little ugly, URLs pass the content field always.
@@ -27,6 +29,7 @@ class ItemResource(DjangoResource):
         'notes': 'notes',
         'typ': 'typ',
         'created_at': 'created_at',
+        'visibility': 'visibility',
         'content': 'content'
     })
 
@@ -36,6 +39,7 @@ class ItemResource(DjangoResource):
         'notes': 'notes',
         'typ': 'typ',
         'content': 'content',
+        'visibility': 'visibility',
         'created_at': 'created_at',
         'edited_at': 'edited_at',
         'collection_id': 'collection.id',
@@ -171,6 +175,9 @@ class ItemResource(DjangoResource):
             month, day, year = [int(x) for x in form.cleaned_data['created_at'].split('/')]
             d = item.created_at
             item.created_at = d.replace(year=year, month=month, day=day)
+        if 'visibility' in self.data:
+            item.visibility = form.cleaned_data['visibility']
+            item.slug = slugify(item.title)
         item.save()
         return self._prepare(item)
 

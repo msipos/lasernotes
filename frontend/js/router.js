@@ -90,8 +90,7 @@ module.exports = Backbone.Router.extend({
 
     // Display an error
     displayError: function(text) {
-        $("#appErrorBody").html(text);
-        $("#appError").slideDown();
+        $.notify(text, "error");
     },
 
     rev: {
@@ -108,5 +107,11 @@ module.exports = Backbone.Router.extend({
             if (params.page == 1) delete params.page;  // page=1 is implied.
             return (new URI("/app/search/")).search(params).href();
         }
+    },
+
+    refresh: function () {
+        var tmp = Backbone.history.fragment;
+        this.navigate(tmp + (new Date).getTime());
+        this.navigate(tmp, { trigger: true })
     }
 });

@@ -24,6 +24,9 @@ class Collection(models.Model):
     encrypted_challenge_hash = models.CharField(null=True, max_length=4096)
     encrypted_challenge_params = models.CharField(null=True, max_length=4096)  # Params of challenge encryption in JSON
 
+    # Blogging:
+    blogged = models.BooleanField(default=False, db_index=True)  # Is this collection shared as a blog.
+
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     edited_at = models.DateTimeField(auto_now=True)
@@ -36,6 +39,17 @@ class Collection(models.Model):
             return '%s: %s (encrypted)' % (self.user.email, self.name)
         else:
             return '%s: %s' % (self.user.email, self.name)
+
+
+class BlogCollection(models.Model):
+    collection = models.OneToOneField(Collection, on_delete=models.CASCADE, related_name='blog')
+    slug = models.SlugField(unique=True)
+    description = models.CharField(max_length=2048)
+
+    audited = models.BooleanField(default=False)
+
+    def get_rendered_sidebar(self):
+        return server_side_md(self.description)
 
 
 OWNER = 'O'  # Can delete underlying
@@ -66,12 +80,22 @@ class Item(models.Model):
         (URL, 'URL')
     ]
 
+    PRIVATE = 'P'  # Private
+    VISIBLE_ON_BLOG = 'V'  # Visible on blog
+    VISIBILITY_TYPES = [
+        (PRIVATE, 'Private'),
+        (VISIBLE_ON_BLOG, 'Visible on blog')
+    ]
+
     collection = models.ForeignKey(Collection)
 
     title = models.CharField(max_length=240)
     content = models.TextField()
     notes = models.CharField(max_length=512, default='')
     typ = models.CharField(max_length=1, choices=ITEM_TYPES, default=ENTRY)
+
+    visibility = models.CharField(max_length=1, choices=VISIBILITY_TYPES, default=PRIVATE)
+    slug = models.SlugField(null=True)  # Used only in the case of the blog
 
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
@@ -88,6 +112,11 @@ class Item(models.Model):
 
     def get_rendered_content(self):
         return server_side_md(self.content)
+
+    def get_url_fragment(self):
+        """ Get URL fragment of form 2015/02/21/foo-bar/. """
+        d = self.created_at
+        return '%d/%02d/%02d/%s/' % (d.year, d.month, d.day, self.slug)
 
 
 class Blog(models.Model):

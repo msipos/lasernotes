@@ -1,15 +1,16 @@
 import datetime
 
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 
-from webapp.models import Blog, BlogItem
+from webapp.models import BlogCollection, Item
 from webapp.util import audit_msg
 
 
 def all_blogs_page(request):
     audit_msg(request, 'all blogs')
-    blogs = Blog.objects.all()
+    blogs = BlogCollection.objects.all()
 
     context = {
         'blogs': blogs
@@ -19,8 +20,10 @@ def all_blogs_page(request):
 
 
 def root_page(request, blog_slug):
-    blog = get_object_or_404(Blog.objects, slug=blog_slug)
-    items = BlogItem.objects.filter(blog=blog).select_related('item')
+    blog = get_object_or_404(BlogCollection.objects, slug=blog_slug)
+
+    items = Item.objects.filter(collection=blog.collection, visibility=Item.VISIBLE_ON_BLOG)
+
     audit_msg(request, 'Root of blog %s' % blog_slug)
 
     context = {
@@ -32,15 +35,18 @@ def root_page(request, blog_slug):
 
 
 def item_page(request, blog_slug, year, month, day, item_slug):
-    blog = get_object_or_404(Blog.objects, slug=blog_slug)
+    blog = get_object_or_404(BlogCollection.objects, slug=blog_slug)
     date = datetime.date(int(year), int(month), int(day))
-    blog_item = get_object_or_404(BlogItem.objects, blog=blog, date=date, slug=item_slug)
+    items = Item.objects.filter(collection=blog.collection, created_at__date=date, visibility=Item.VISIBLE_ON_BLOG)
+
+    if len(items) == 0:
+        raise Http404('No such item')
 
     audit_msg(request, 'Visit to %s / %s' % (blog_slug, item_slug))
 
     context = {
         'blog': blog,
-        'item': blog_item
+        'items': items
     }
 
     return TemplateResponse(request, 'blog/blog_item.html', context)

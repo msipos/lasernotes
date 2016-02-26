@@ -25,15 +25,7 @@ var backend = {
             return res["objects"];
         });
     },
-    newCollection: function(name, encrypted, effectivePasswordParams, challenge, challengeHash, challengeParams) {
-        var obj = {
-            name: name,
-            encrypted: encrypted,
-            effective_password_params: effectivePasswordParams,
-            challenge: challenge,
-            challenge_hash: challengeHash,
-            challenge_params: challengeParams,
-        };
+    newCollectionObject: function(obj) {
         return this.ajax("/api/v1/collections/", "POST", obj);
     },
     getCollection: function(collection, detail) {

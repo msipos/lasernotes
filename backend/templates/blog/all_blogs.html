@@ -12,7 +12,7 @@ Blogs hosted on LaserNotes
 {% for blog in blogs %}
     <div class="blog-post-in-list">
         <span class="blog-post-title">
-            <a href="/blogs/{{blog.slug}}/">{{blog.title}}</a>
+            <a href="/blogs/{{blog.slug}}/">{{blog.collection.name}}</a>
         </span>
     </div>
 {% endfor %}

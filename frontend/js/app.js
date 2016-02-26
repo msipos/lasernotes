@@ -83,5 +83,6 @@ window.App = {
     lock: function(id) {
         this.cryptoState.lockCollection(id);
         this.navigate("");
+        this.router.refresh();
     }
 };

@@ -7,11 +7,13 @@ function onUnlockClick(collection, e) {
 
     var password = $("#journalPassword").val();
 
-    var epp = JSON.parse(collection.effective_password_params);
+    var params = collection.encrypted_params;
+
+    var epp = JSON.parse(params.effective_password_params);
     var ep = App.crypto.computeEffectivePassword(password, epp);
 
-    var cp = JSON.parse(collection.challenge_params);
-    if (!App.crypto.checkChallengeHash(ep, collection.challenge, cp, collection.challenge_hash)) {
+    var cp = JSON.parse(params.challenge_params);
+    if (!App.crypto.checkChallengeHash(ep, params.challenge, cp, params.challenge_hash)) {
         App.router.displayError("Incorrect password.")
         return;
     }

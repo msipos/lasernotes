@@ -25,16 +25,30 @@
 <h2 class="app-note-title">
     <%- item.title %>
 </h2>
-<div class="app-note-subheading">Created on <a style="color: #666" href="/app/item/<%= item.id %>/edit-date/" onclick="return App.click(this);"><%= App.util.formatDateTime(new Date(item.created_at)) %></a>.
-<% if (item.created_at !== item.edited_at) { %>
-Last edited on <%= App.util.formatDateTime(new Date(item.edited_at)) %>.
-<% } %>
-<% if (item.notes) { %>
+
+<div class="app-note-subheading">
+  <% if (collection.blogged) { %>
+      <a href="#" id="changeVisibilityLink" style="color: #666;">
+        <% if (item.visibility === 'P') { %>
+            Private.
+        <% } else { %>
+            Public.
+        <% } %>
+      </a>
+  <% } %>
+
+  Created on <a style="color: #666" href="/app/item/<%= item.id %>/edit-date/" onclick="return App.click(this);"><%= App.util.formatDateTime(new Date(item.created_at)) %></a>.
+
+  <% if (item.created_at !== item.edited_at) { %>
+    Last edited on <%= App.util.formatDateTime(new Date(item.edited_at)) %>.
+  <% } %>
+
+  <% if (item.notes) { %>
     <span class="fa fa-sticky-note-o" style="padding-left: 8px;padding-right: 4px;"></span>
     <%- item.notes %>
-<% } %>
-
+  <% } %>
 </div>
+
 <div class="app-note-content"><%= item.content %></div>
 
 <div class="app-toolbar">

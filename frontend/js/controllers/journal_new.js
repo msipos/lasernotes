@@ -4,6 +4,13 @@ function onNewJournalClick(e) {
 
     var name = $("#journalName").val();
     var encrypted = $("#journalEncrypted").is(":checked");
+    var blogged = $("#journalBlogged").is(":checked");
+
+    var obj = {
+        name: name,
+        encrypted: encrypted,
+        blogged: blogged
+    }
 
     if (encrypted) {
         var password = $("#journalPassword").val();
@@ -13,31 +20,31 @@ function onNewJournalClick(e) {
             return;
         }
         if (password.length <= 4) {
-            App.router.displayError("Password too short.");
+            App.router.displayError("Password too short (must be at least 5 characters).");
             return;
         }
 
-        var obj = App.crypto.initializePassword(password);
+        var ip = App.crypto.initializePassword(password);
 
-        App.renderMain("loader.html").then(function() {
-            return App.backend.newCollection(
-                name,
-                encrypted,
-                JSON.stringify(obj.effectivePasswordParams),
-                obj.challenge,
-                obj.challengeHash,
-                JSON.stringify(obj.challengeParams)
-            );
-        }).then(function() {
-            return App.navigate("");
-        });
-    } else {
-        App.renderMain("loader.html").then(function() {
-            return App.backend.newCollection(name, encrypted, "", "", "", "");
-        }).then(function() {
-            return App.navigate("");
-        });
+        obj.effective_password_params = JSON.stringify(ip.effectivePasswordParams);
+        obj.challenge = ip.challenge;
+        obj.challenge_hash = ip.challengeHash;
+        obj.challenge_params = JSON.stringify(ip.challengeParams);
+    } else if (blogged) {
+        obj.blog_slug = $("#journalBlogSlug").val();
+        if (obj.blog_slug.length < 3) {
+            App.router.displayError("Slug too small (must be at least 3 characters).")
+        }
+
+        obj.blog_desc = $("#journalBlogDesc").val();
+        if (obj.blog_desc.length < 3) {
+            App.router.displayError("Description too small (must be at least 1 character).")
+        }
     }
+
+    App.backend.newCollectionObject(obj).then(function() {
+        return App.navigate("");
+    });
 }
 
 // Controller for "/app/journal/new/"
@@ -45,14 +52,37 @@ function index() {
     App.renderMain("journals_new.html").then(function() {
         $("#journalName").focus();
 
+        var journalEncrypted = $("#journalEncrypted");
+        var journalPasswords = $("#journalPasswords");
+        var journalBlogged = $("#journalBlogged");
+        var journalBlog = $("#journalBlog");
+
         // Appear journalEncrypted on checkbox click
-        $("#journalEncrypted").on("change", function() {
-            if ($("#journalEncrypted").prop("checked")) {
-                $("#journalPasswords").removeClass("hide");
+        journalEncrypted.on("change", function() {
+            if (journalEncrypted.prop("checked")) {
+                journalPasswords.removeClass("hide");
                 $("#journalPassword").val("");
                 $("#journalVerify").val("");
+
+                journalBlogged.prop("checked", false);
+                journalBlogged.prop("disabled", true);
+                journalBlog.addClass("hide");
             } else {
-                $("#journalPasswords").addClass("hide");
+                journalPasswords.addClass("hide");
+                journalBlogged.prop("disabled", false);
+            }
+        });
+
+        // Appear journalBlog on checkbox click
+        journalBlogged.on("change", function() {
+            if (journalBlogged.prop("checked")) {
+                journalBlog.removeClass("hide");
+                journalPasswords.addClass("hide");
+                journalEncrypted.prop("checked", false);
+                journalEncrypted.prop("disabled", true);
+            } else {
+                journalBlog.addClass("hide");
+                journalEncrypted.prop("disabled", false);
             }
         });
 
