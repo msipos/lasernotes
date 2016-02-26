@@ -100,6 +100,7 @@ class CollectionResource(DjangoResource):
             except ObjectDoesNotExist:
                 raise NotFound('Invalid collection id = %r' % pk)
 
+            coll.blogged = form.cleaned_data['blogged']
             if form.cleaned_data['blogged']:
                 coll.ensure_blog_exists()
                 coll.blog.slug = form.cleaned_data['blog_slug']
