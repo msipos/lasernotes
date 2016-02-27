@@ -1,6 +1,8 @@
 var controllerBase = require("./controllers/base.js");
-var controllerEdit = require("./controllers/journal_edit.js");
+var controllerJournalEdit = require("./controllers/journal_edit.js");
 var controllerItem = require("./controllers/item.js");
+var controllerItemEditNew = require("./controllers/item_edit_new.js");
+var controllerItemEditDate = require("./controllers/item_edit_date.js");
 var controllerJournals = require('./controllers/journals.js');
 var controllerJournalsNew = require('./controllers/journal_new.js');
 var controllerSearch = require("./controllers/search.js");
@@ -43,7 +45,7 @@ module.exports = Backbone.Router.extend({
     },
 
     journalEdit: function(id) {
-        controllerBase.collection(id, controllerEdit.index, {detail: true});
+        controllerBase.collection(id, controllerJournalEdit.index, {detail: true});
     },
 
     // Controller for "/app/journal:id/unlock/"
@@ -51,18 +53,18 @@ module.exports = Backbone.Router.extend({
 
     // Controller for "/app/journal/:id/new/"
     itemNew: function(id) {
-        controllerBase.collection(id, controllerItem.newItem);
+        controllerBase.collection(id, controllerItemEditNew.newItem);
     },
 
     // Controller for "/app/journal/:id/new/url/"
     itemNewUrl: function(id) {
-        controllerBase.collection(id, controllerItem.newUrl);
+        controllerBase.collection(id, controllerItemEditNew.newUrl);
     },
 
     // Controller for "/app/journal/:id/new/url/?:params"
     itemNewUrlWithParams: function(id, params) {
         params = (new URI("/?" + params)).search(true);
-        controllerBase.collection(id, controllerItem.newUrl, params);
+        controllerBase.collection(id, controllerItemEditNew.newUrl, params);
     },
 
     // Controller for "/app/item/:id/"
@@ -72,12 +74,12 @@ module.exports = Backbone.Router.extend({
 
     // Controller for "/app/item/:id/edit/"
     itemEdit: function(id) {
-        controllerBase.item(id, controllerItem.edit);
+        controllerBase.item(id, controllerItemEditNew.edit);
     },
 
     // Controller for "/app/item/:id/edit-date/"
     itemEditDate: function(id) {
-        controllerBase.item(id, controllerItem.editDate);
+        controllerBase.item(id, controllerItemEditDate.editDate);
     },
 
     search: function() {

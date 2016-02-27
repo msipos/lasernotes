@@ -28,6 +28,7 @@ class CollectionForm(forms.Form):
 
 
 class ItemForm(forms.Form):
+    collection_id = forms.IntegerField(min_value=0, required=False)
     title = forms.CharField(min_length=1, max_length=240, required=False)
     notes = forms.CharField(max_length=512, required=False)
     content = forms.CharField(max_length=100*1024, required=False)

@@ -163,6 +163,17 @@ class ItemResource(DjangoResource):
         except ObjectDoesNotExist:
             raise NotFound('No id = %r' % pk)
 
+        if 'collection_id' in self.data:
+            cid = form.cleaned_data['collection_id']
+            if item.collection.encrypted:
+                raise BadRequest('Cannot move from an encrypted journal')
+            try:
+                collection = accessor.query_collections().get(id=cid)
+            except ObjectDoesNotExist:
+                raise NotFound('No collection id = %r' % cid)
+            if collection.encrypted:
+                raise BadRequest('Cannot move to an encrypted journal')
+            item.collection = collection
         if 'title' in self.data:
             item.title = form.cleaned_data['title']
         if 'content' in self.data:
