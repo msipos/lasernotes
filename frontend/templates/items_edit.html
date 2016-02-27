@@ -19,7 +19,7 @@
 <form autocomplete="off">
     <div class="form-group">
         <label>Name</label>
-        <input name="itemName" type="text" class="form-control" id="itemName" placeholder="Enter item name"
+        <input name="itemName" type="text" class="form-control" id="itemName" placeholder="Enter item name" maxlength="239"
             <% if (title) { %>
                 value="<%= title %>"
             <% } %>
@@ -27,7 +27,7 @@
     </div>
     <div class="form-group">
         <label>Notes</label>
-        <input name="itemNotes" type="text" class="form-control" id="itemNotes" placeholder="Enter item notes"
+        <input name="itemNotes" type="text" class="form-control" id="itemNotes" placeholder="Enter item notes" maxlength="511"
             <% if (notes) { %>
                 value="<%= notes %>"
             <% } %>
