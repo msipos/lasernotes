@@ -45,6 +45,11 @@ MIDDLEWARE_CLASSES = [
 # Use persistent connections for the DB:
 CONN_MAX_AGE = 1200
 
+# ********************************************************* Sessions
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
+SESSION_CACHE_ALIAS = "default"
+
 # ********************************************************* Templates
 
 TEMPLATES = [

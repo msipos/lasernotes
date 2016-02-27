@@ -14,3 +14,4 @@ pip install bleach  # Serer side sanitization of markdown
 pip install django-user-accounts
 pip install django-mailgun
 pip install python-social-auth
+pip install django-redis

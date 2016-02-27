@@ -83,9 +83,14 @@ function bootboxChoice(obj) {
     });
 }
 
+function compileContent(content) {
+    return marked(content, {sanitize: true});
+}
+
 module.exports.formatTime = formatTime;
 module.exports.formatDate = formatDate;
 module.exports.formatDatePicker = formatDatePicker;
 module.exports.formatDateTime = formatDateTime;
 module.exports.shorten = shorten;
 module.exports.bootboxChoice = bootboxChoice;
+module.exports.compileContent = compileContent;

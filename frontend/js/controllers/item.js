@@ -1,7 +1,3 @@
-function compileContent(content) {
-    return marked(content, {sanitize: true});
-}
-
 function onClickDelete(iId, cId, e) {
     e.preventDefault();
 
@@ -76,13 +72,11 @@ function onMoveEntry(item, current_collection, e) {
         App.util.bootboxChoice(dialog);
         return null;
     });
-
-    console.log(item);
 }
 
 // Controller for "/app/item/:id/"
 function index(item, collection) {
-    item.content = compileContent(item.content);
+    item.content = App.util.compileContent(item.content);
     var context = {
         item: item,
         collection: collection

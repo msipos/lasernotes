@@ -15,7 +15,7 @@ var knownOptions = {
 var options = minimist(process.argv.slice(2), knownOptions);
 
 console.log(options.env);
-var version = '0002'; // Make sure it matches base.html, base_front.html, base_blog.html.
+var version = '0003'; // Make sure it matches base.html, base_front.html, base_blog.html.
 
 var config = {
     debug: options.env === 'dev',

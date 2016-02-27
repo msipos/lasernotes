@@ -67,7 +67,7 @@ function setupEditPreviewTabs() {
 
     // Compile contents
     var content = textArea.val();
-    preview.html(compileContent(content));
+    preview.html(App.util.compileContent(content));
 
     // Switch
     resetTabs();
