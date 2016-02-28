@@ -1,18 +1,17 @@
-from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.utils.text import slugify
-from restless.dj import DjangoResource
 from restless.exceptions import BadRequest, NotFound
 from restless.preparers import FieldsPreparer
 
 from webapp import forms
 from webapp import models
+from webapp.api.app_resource import AppResource
 from webapp.util import audit_msg
 
 
-class ItemResource(DjangoResource):
+class ItemResource(AppResource):
     general_preparer = FieldsPreparer(fields={
         'id': 'id',
         'title': 'title',
@@ -101,14 +100,6 @@ class ItemResource(DjangoResource):
     def _get_q(self):
         return self.request.GET.get('q', None)
 
-    ### Restless settings
-
-    def bubble_exceptions(self):
-        return settings.DEBUG
-
-    def is_authenticated(self):
-        return self.request.user.is_authenticated()
-
     ### REST API
 
     def list(self):
@@ -188,7 +179,10 @@ class ItemResource(DjangoResource):
             item.created_at = d.replace(year=year, month=month, day=day)
         if 'visibility' in self.data:
             item.visibility = form.cleaned_data['visibility']
-            item.slug = slugify(item.title)
+            slug = slugify(item.title)
+            if len(slug) > 50:
+                slug = slug[:50]
+            item.slug = slug
         item.save()
         return self._prepare(item)
 

@@ -109,6 +109,7 @@ STATIC_ROOT = (os.path.join(BASE_DIR, 'static_root'))
 
 # ********************************************************* Logging
 
+LOGGING_CONFIG = None
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -129,21 +130,14 @@ LOGGING = {
         }
     },
     'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'propagate': True,
-        },
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': False,
-        },
-        'webapp': {
+        '': {
             'handlers': ['console', 'mail_admins'],
             'level': 'INFO',
-        }
+        },
     }
 }
+import logging.config
+logging.config.dictConfig(LOGGING)
 
 # ********************************************************* Celery
 

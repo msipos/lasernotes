@@ -1,16 +1,14 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.conf import settings
-
-from restless.dj import DjangoResource
 from restless.exceptions import BadRequest, NotFound
 
 from webapp import forms
 from webapp import models
+from webapp.api.app_resource import AppResource
 from webapp.util import audit_msg
 
 
-class CollectionResource(DjangoResource):
+class CollectionResource(AppResource):
     def _prepare(self, obj):
         rv = {
             'id': obj.id,
@@ -32,14 +30,6 @@ class CollectionResource(DjangoResource):
                     'description': obj.blog.description
                 }
         return rv
-
-    ### Restless settings
-
-    def bubble_exceptions(self):
-        return settings.DEBUG
-
-    def is_authenticated(self):
-        return self.request.user.is_authenticated()
 
     ### REST API
 
@@ -92,6 +82,8 @@ class CollectionResource(DjangoResource):
         form = forms.CollectionForm(self.data)
         if not form.is_valid():
             raise BadRequest('Validation failure: %r' % form.errors)
+
+        raise RuntimeError('Foo bar baz')
 
         with transaction.atomic():
             accessor = models.Accessor(self.request.user)
