@@ -83,8 +83,6 @@ class CollectionResource(AppResource):
         if not form.is_valid():
             raise BadRequest('Validation failure: %r' % form.errors)
 
-        raise RuntimeError('Foo bar baz')
-
         with transaction.atomic():
             accessor = models.Accessor(self.request.user)
             try:
